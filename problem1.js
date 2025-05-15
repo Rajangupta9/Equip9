@@ -1,12 +1,4 @@
-class GraphNode{
-    constructor(value,child){
-       this.value= value;
-       this.Neighbor=[];
-    }
-    addNeighbor(Neighbor){
-        this.Neighbor.push(Neighbor);
-    }
-}
+
 // class Tree {
 //     constructor(rootValue){
 //         this.root = new TreeNode(rootValue);
@@ -39,6 +31,15 @@ class GraphNode{
 //     }
 // }
 
+class GraphNode{
+    constructor(value,child){
+       this.value= value;
+       this.Neighbor=[];
+    }
+    addNeighbor(Neighbor){
+        this.Neighbor.push(Neighbor);
+    }
+}
 class Graph {
     constructor(){
         this.nodes = new Map();
@@ -67,22 +68,21 @@ function findSortestPath(n, edge, availability, start_provider, target_equipment
     graph.addEdges(edge);
     const startNode =graph.getNode(start_provider);
     if(!startNode) return -1;
-    console.log(startNode);
-    const queue = [[startNode, [startNode]]];
-    const visited = new Set([startNode.id]);
-    console.log(startNode.id);
+    const queue = [[startNode, [startNode.value]]];
+    const visited = new Set([startNode.value]);
+    
 
     while(queue.length>0){
         const [currentNode, path] =queue.shift();
-        const currentId = currentNode.id;
+        const currentId = currentNode.value;
 
         if((availability[currentId] || []).includes(target_equipment)){
             return path;
         }
         for(const Neighbor of currentNode.Neighbor){
-            if(!visited.has(Neighbor.id)){
-                visited.add(Neighbor.id)
-                queue.push([Neighbor, [...path, Neighbor.id]]);
+            if(!visited.has(Neighbor.value)){
+                visited.add(Neighbor.value)
+                queue.push([Neighbor, [...path, Neighbor.value]]);
             }
         }
     }
